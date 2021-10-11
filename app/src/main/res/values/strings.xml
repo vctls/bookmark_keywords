@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Bookmark Keywords</string>
+    <string name="keyword_not_found">Keyword not found.</string>
+</resources>
