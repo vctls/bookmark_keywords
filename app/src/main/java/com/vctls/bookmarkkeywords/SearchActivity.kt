@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.vctls.bookmarkkeywords.databinding.ActivitySearchBinding
 
-// TODO Maybe rename the activity.
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
