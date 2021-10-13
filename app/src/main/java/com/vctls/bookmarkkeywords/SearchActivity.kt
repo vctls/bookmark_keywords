@@ -5,7 +5,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.vctls.bookmarkkeywords.data.BookmarkDatabase
 import com.vctls.bookmarkkeywords.databinding.ActivitySearchBinding
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class SearchActivity : AppCompatActivity() {
 
@@ -44,9 +47,15 @@ class SearchActivity : AppCompatActivity() {
                 queryString.substring(0, spaceIndex)
             }
 
-            val template = findTemplate(keyword)
+            var template = ""
+            // TODO Check how to use the coroutine correctly.
+            runBlocking {
+                launch {
+                    template = findTemplateInDb(keyword)
+                }
+            }
 
-            if (template === null) {
+            if (template === "") {
                 // TODO Handle unknown keyword.
                 Toast.makeText(
                     applicationContext,
@@ -65,7 +74,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun findTemplate(keyword: String): String? {
-        // TODO Get templates from a database.
+        // TODO Don't even try if string is empty.
         val templates = hashMapOf(
             "du" to "https://duckduckgo.com/%s",
             "g" to "https://www.google.fr/search?newwindow=1&hl=en&q=%s",
@@ -74,5 +83,13 @@ class SearchActivity : AppCompatActivity() {
             "cnrtl" to "http://www.cnrtl.fr/definition/%s",
         )
         return templates[keyword]
+    }
+
+    /**
+     * Get the template from a bookmark in the database.
+     */
+    private suspend fun findTemplateInDb(keyword: String): String {
+        val db = BookmarkDatabase.getInstance(applicationContext)
+        return db.bookmarkDao().findByKeyword(keyword)?.template ?: ""
     }
 }
