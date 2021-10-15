@@ -3,4 +3,15 @@
     <string name="keyword_not_found">Keyword not found.</string>
     <string name="btn_go">Go</string>
     <string name="input_hint_query">query</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Bookmark Keywords</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_list">List</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="add_bookmark">Add a new bookmark</string>
 </resources>
