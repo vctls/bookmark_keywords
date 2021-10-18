@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.vctls.bookmarkkeywords.databinding.ActivityMainBinding
 
@@ -17,11 +18,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+    // Make fab accessible to allow manipulation it on specific fragments.
+    lateinit var fab: FloatingActionButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        fab = binding.appBarMain.fab
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
@@ -44,6 +50,10 @@ class MainActivity : AppCompatActivity() {
             // TODO Any way to animate this?
             navController.navigate(R.id.nav_create_form)
         }
+    }
+
+    fun hasFab(): Boolean {
+        return ::fab.isInitialized
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -19,4 +19,5 @@
     <string name="input_hint_url_template">URL template</string>
     <string name="input_hint_keyword">keyword</string>
     <string name="button_save">save</string>
+    <string name="help_placeholders">Use %s as a placeholder.</string>
 </resources>
