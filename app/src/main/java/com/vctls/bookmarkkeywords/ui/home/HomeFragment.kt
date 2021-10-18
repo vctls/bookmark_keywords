@@ -75,7 +75,7 @@ class HomeFragment : Fragment() {
             queryString.substring(0, spaceIndex)
         }
 
-        var template = ""
+        var template: String
         // TODO Check if there is a cleaner way of handling this with coroutines.
         runBlocking {
             template = findTemplateInDb(keyword)
@@ -85,7 +85,7 @@ class HomeFragment : Fragment() {
             // TODO Handle unknown keyword.
             Toast.makeText(
                 context,
-                R.string.keyword_not_found,
+                R.string.error_keyword_not_found,
                 Toast.LENGTH_SHORT
             ).show()
             return
@@ -93,9 +93,17 @@ class HomeFragment : Fragment() {
 
         val url = String.format(template, search)
 
-        // Open URL in default browser.
+        // Try to open URL with the default app.
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(browserIntent)
+        try {
+            startActivity(browserIntent)
+        } catch (e: Exception) {
+            Toast.makeText(
+                context,
+                R.string.error_compatible_app_not_found,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun onDestroyView() {

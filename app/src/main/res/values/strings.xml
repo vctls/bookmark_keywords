@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Bookmark Keywords</string>
-    <string name="keyword_not_found">Keyword not found.</string>
+    <string name="error_keyword_not_found">Keyword not found.</string>
+    <string name="error_compatible_app_not_found">No app found to handle this URI.</string>
     <string name="btn_go">Go</string>
     <string name="input_hint_query">query</string>
     <string name="title_activity_main">MainActivity</string>
@@ -13,5 +14,9 @@
     <string name="menu_home">Home</string>
     <string name="menu_list">List</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="add_bookmark">Add a new bookmark</string>
+    <string name="button_description_add_bookmark">Add a new bookmark</string>
+    <string name="input_hint_name">name</string>
+    <string name="input_hint_url_template">URL template</string>
+    <string name="input_hint_keyword">keyword</string>
+    <string name="button_save">save</string>
 </resources>

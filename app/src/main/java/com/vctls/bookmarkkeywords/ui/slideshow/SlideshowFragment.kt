@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.vctls.bookmarkkeywords.R
 import com.vctls.bookmarkkeywords.databinding.FragmentSlideshowBinding
 
 class SlideshowFragment : Fragment() {
@@ -32,9 +31,12 @@ class SlideshowFragment : Fragment() {
         val root: View = binding.root
 
         val textView: TextView = binding.textSlideshow
-        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+        slideshowViewModel.text.observe(
+            viewLifecycleOwner,
+            Observer {
+                textView.text = it
+            }
+        )
         return root
     }
 
