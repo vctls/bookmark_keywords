@@ -1,9 +1,10 @@
 package com.vctls.bookmarkkeywords.model
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(indices = [Index(value = ["keyword"], unique = true)])
 data class Bookmark(
     @PrimaryKey(autoGenerate = true) val id: Int?,
     val keyword: String,

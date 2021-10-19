@@ -78,7 +78,7 @@ class HomeFragment : Fragment() {
         var template: String
         // TODO Check if there is a cleaner way of handling this with coroutines.
         runBlocking {
-            template = findTemplateInDb(keyword)
+            template = getTemplate(keyword)
         }
 
         if (template === "") {
@@ -127,7 +127,7 @@ class HomeFragment : Fragment() {
      * Get the template from a bookmark in the database.
      * TODO This should probably be moved elsewhere.
      */
-    private suspend fun findTemplateInDb(keyword: String): String {
+    private suspend fun getTemplate(keyword: String): String {
         val db = context?.let { BookmarkDatabase.getInstance(it) }
         if (db != null) {
             return db.bookmarkDao().findByKeyword(keyword)?.template ?: ""

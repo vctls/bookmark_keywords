@@ -3,7 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vctls.bookmarkkeywords">
 
-<!-- TODO Re-enable backups once initial database schema is fixed. -->
+<!--
+TODO Re-enable backups once initial database schema is fixed.
+Any way to force database recreation without using migrations during development?
+-->
     <application
 
         android:allowBackup="false"

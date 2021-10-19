@@ -8,14 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vctls.bookmarkkeywords.MainActivity
 import com.vctls.bookmarkkeywords.data.BookmarkDatabase
-import com.vctls.bookmarkkeywords.databinding.FragmentCreateFormBinding
+import com.vctls.bookmarkkeywords.databinding.FragmentFormBinding
 import com.vctls.bookmarkkeywords.model.Bookmark
 import kotlinx.coroutines.runBlocking
 
-class CreateFormFragment : Fragment() {
+class FormFragment : Fragment() {
 
     private lateinit var viewModel: FormViewModel
-    private var _binding: FragmentCreateFormBinding? = null
+    private var _binding: FragmentFormBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -25,7 +25,7 @@ class CreateFormFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCreateFormBinding.inflate(inflater, container, false)
+        _binding = FragmentFormBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         // Hide the fab. TODO Replace it with a save button instead, somehow.
@@ -42,10 +42,32 @@ class CreateFormFragment : Fragment() {
         // TODO Reuse the fab instead.
         val save = binding.save
 
-        // TODO Maybe don't make this blocking.
+        // If fragment has a destination argument,
+        //  get the corresponding bookmark for edition.
+        var bookmark: Bookmark? = null
+
+        try {
+            if (requireArguments().containsKey("keyword")) {
+                runBlocking {
+                    bookmark = getBookmark(arguments?.get("keyword") as String)
+                }
+            }
+        } catch (e: IllegalStateException) {}
+
+        if (bookmark != null) {
+            name.setText(bookmark!!.name)
+            template.setText(bookmark!!.template)
+            keyword.setText(bookmark!!.keyword)
+        }
+
         save.setOnClickListener {
+            // TODO Maybe don't make this blocking.
             runBlocking {
-                new(keyword.text.toString(), template.text.toString(), name.text.toString())
+                new(
+                    keyword.text.toString(),
+                    template.text.toString(),
+                    name.text.toString()
+                )
                 // Switch back to previous fragment. TODO If successful!
                 findNavController().popBackStack()
             }
@@ -68,5 +90,17 @@ class CreateFormFragment : Fragment() {
         if (mainActivity.hasFab()) {
             mainActivity.fab.show()
         }
+    }
+
+    /**
+     * Get the template from a bookmark in the database.
+     * TODO This should probably be moved elsewhere.
+     */
+    private suspend fun getBookmark(keyword: String): Bookmark? {
+        val db = context?.let { BookmarkDatabase.getInstance(it) }
+        if (db != null) {
+            return db.bookmarkDao().findByKeyword(keyword)
+        }
+        return null
     }
 }

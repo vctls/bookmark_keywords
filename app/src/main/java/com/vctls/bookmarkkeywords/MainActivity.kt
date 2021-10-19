@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         binding.appBarMain.fab.setOnClickListener {
             // Use the navigation controller to move to the form instead of the fragment manager.
             // TODO Any way to animate this?
-            navController.navigate(R.id.nav_create_form)
+            navController.navigate(R.id.nav_form)
         }
     }
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
@@ -13,21 +12,24 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.vctls.bookmarkkeywords.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
-    <fragment
         android:id="@+id/nav_list"
         android:name="com.vctls.bookmarkkeywords.ui.list.ListFragment"
         android:label="List"
-        tools:layout="@layout/fragment_bookmark_list" />
+        tools:layout="@layout/fragment_bookmark_list">
+        <action
+            android:id="@+id/action_list_to_form"
+            app:destination="@id/nav_form">
+            <argument
+                android:name="keyword"
+                app:argType="string"
+                />
+        </action>
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_create_form"
-        android:name="com.vctls.bookmarkkeywords.ui.form.CreateFormFragment"
-        android:label="Add a new bookmark"
-        tools:layout="@layout/fragment_create_form" />
+        android:id="@+id/nav_form"
+        android:name="com.vctls.bookmarkkeywords.ui.form.FormFragment"
+        android:label="Edit bookmark"
+        tools:layout="@layout/fragment_form" />
 
 </navigation>
