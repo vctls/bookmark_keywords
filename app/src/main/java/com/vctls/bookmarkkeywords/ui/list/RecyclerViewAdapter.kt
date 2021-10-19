@@ -39,19 +39,13 @@ class RecyclerViewAdapter(
         val contentView: TextView = binding.content
 
         init {
-            binding.content.setOnClickListener {
+            binding.root.setOnClickListener {
                 navigateToBookmark(idView.text.toString(), binding.content)
             }
         }
 
-        private fun navigateToBookmark(
-            keyword: String,
-            view: View
-        ) {
-            val direction =
-                ListFragmentDirections.actionListToForm(
-                    keyword
-                )
+        private fun navigateToBookmark(keyword: String, view: View) {
+            val direction = ListFragmentDirections.actionListToForm(keyword)
             view.findNavController().navigate(direction)
         }
 
