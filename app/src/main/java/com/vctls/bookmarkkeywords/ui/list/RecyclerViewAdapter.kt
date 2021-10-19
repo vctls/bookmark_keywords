@@ -27,20 +27,20 @@ class RecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.keyword
-        holder.contentView.text = item.template
+        holder.keywordView.text = item.keyword
+        holder.templateView.text = item.template
     }
 
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(binding: ContentBookmarkListBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemNumber
-        val contentView: TextView = binding.content
+        RecyclerView.ViewHolder(binding.root), BookmarkViewHolder {
+        override val keywordView: TextView = binding.keyword
+        override val templateView: TextView = binding.template
 
         init {
             binding.root.setOnClickListener {
-                navigateToBookmark(idView.text.toString(), binding.content)
+                navigateToBookmark(keywordView.text.toString(), binding.root)
             }
         }
 
@@ -50,7 +50,7 @@ class RecyclerViewAdapter(
         }
 
         override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+            return super.toString() + " '" + templateView.text + "'"
         }
     }
 }

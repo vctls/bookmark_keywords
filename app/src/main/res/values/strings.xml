@@ -20,4 +20,6 @@
     <string name="input_hint_keyword">keyword</string>
     <string name="button_save">save</string>
     <string name="help_placeholders">Use %s as a placeholder.</string>
+    <string name="error_database_not_found">Database not found</string>
+    <string name="bookmark_deleted">Bookmark deleted.</string>
 </resources>

@@ -19,8 +19,8 @@ interface BookmarkDao {
     suspend fun findByKeyword(keyword: String): Bookmark?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vararg users: Bookmark)
+    suspend fun insertAll(vararg bookmarks: Bookmark)
 
     @Delete
-    suspend fun delete(user: Bookmark)
+    suspend fun delete(bookmark: Bookmark)
 }

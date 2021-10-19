@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vctls.bookmarkkeywords.R
@@ -49,8 +50,40 @@ class ListFragment : Fragment() {
                 runBlocking { bookmarks = getBookmarks() }
 
                 adapter = RecyclerViewAdapter(bookmarks)
+
+                // Add swipe listener to delete items.
+                val itemTouchHelper = ItemTouchHelper(object :
+                        ItemTouchHelper.SimpleCallback(
+                            0,
+                            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+                        ) {
+                        override fun onMove(
+                            recyclerView: RecyclerView,
+                            viewHolder: RecyclerView.ViewHolder,
+                            target: RecyclerView.ViewHolder
+                        ): Boolean {
+                            TODO("Not yet implemented")
+                        }
+
+                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                            runBlocking {
+                                deleteBookmark((viewHolder as BookmarkViewHolder).keywordView.text.toString())
+                            }
+                            Toast.makeText(context, R.string.bookmark_deleted, Toast.LENGTH_SHORT).show()
+                            // FIXME The item is removed from the database but not the view.
+                            val position = viewHolder.bindingAdapterPosition
+                            val recyclerViewAdapter = adapter as RecyclerViewAdapter
+                            // FIXME Whatever notification I use, items get added back in the view
+                            //   until I switch to another view and back to the list.
+                            // recyclerViewAdapter.notifyItemRemoved(position)
+                            // recyclerViewAdapter.notifyItemRangeChanged(position, recyclerViewAdapter.itemCount)
+                        }
+                    })
+
+                itemTouchHelper.attachToRecyclerView(view)
             }
         }
+
         return view
     }
 
@@ -69,19 +102,32 @@ class ListFragment : Fragment() {
             }
     }
 
+    private fun getDb(): BookmarkDatabase? {
+        val db = context?.let { BookmarkDatabase.getInstance(it) }
+        // TODO Shouldn't this be an exception?
+        if (db == null) {
+            Toast.makeText(context, R.string.error_database_not_found, Toast.LENGTH_LONG).show()
+            return null
+        }
+        return db
+    }
+
     /**
      * Get all bookmarks the database.
      * TODO This should probably be moved elsewhere.
      */
     private suspend fun getBookmarks(): List<Bookmark> {
-        val db = context?.let { BookmarkDatabase.getInstance(it) }
-
-        // TODO Shouldn't this be an exception?
-        if (db == null) {
-            Toast.makeText(context, "Database not found", Toast.LENGTH_LONG).show()
-            return emptyList()
-        }
-
+        val db = getDb() ?: return emptyList()
         return db.bookmarkDao().getAll()
+    }
+
+    /**
+     * Delete a bookmark identified by its keyword.
+     */
+    private suspend fun deleteBookmark(keyword: String) {
+        val db = getDb()
+        if (db != null) {
+            db.bookmarkDao().findByKeyword(keyword)?.let { db.bookmarkDao().delete(it) }
+        }
     }
 }

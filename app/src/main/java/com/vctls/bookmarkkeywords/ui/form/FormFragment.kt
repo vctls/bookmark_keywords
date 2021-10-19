@@ -52,7 +52,9 @@ class FormFragment : Fragment() {
                     bookmark = getBookmark(arguments?.get("keyword") as String)
                 }
             }
-        } catch (e: IllegalStateException) {}
+        } catch (e: IllegalStateException) {
+            // Ignore if no arguments. Would be a new Bookmark.
+        }
 
         if (bookmark != null) {
             name.setText(bookmark!!.name)
