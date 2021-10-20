@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vctls.bookmarkkeywords.R
 import com.vctls.bookmarkkeywords.data.BookmarkDatabase
+import com.vctls.bookmarkkeywords.error.BookmarkKeywordsError
 import com.vctls.bookmarkkeywords.model.Bookmark
 import kotlinx.coroutines.runBlocking
 
@@ -44,7 +45,7 @@ class ListFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                var bookmarks: List<Bookmark>
+                var bookmarks: MutableList<Bookmark>
 
                 // TODO Again, this should probably not be blocking.
                 runBlocking { bookmarks = getBookmarks() }
@@ -66,17 +67,24 @@ class ListFragment : Fragment() {
                         }
 
                         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                            val bookmarkViewHolder = viewHolder as BookmarkViewHolder
+                            val keyword = bookmarkViewHolder.keywordView.text.toString()
                             runBlocking {
-                                deleteBookmark((viewHolder as BookmarkViewHolder).keywordView.text.toString())
+                                deleteBookmark(keyword)
                             }
-                            Toast.makeText(context, R.string.bookmark_deleted, Toast.LENGTH_SHORT).show()
+                            bookmarks.remove(bookmarks.find { it.keyword == keyword })
+                            Toast.makeText(context, R.string.bookmark_deleted, Toast.LENGTH_SHORT)
+                                .show()
                             // FIXME The item is removed from the database but not the view.
                             val position = viewHolder.bindingAdapterPosition
                             val recyclerViewAdapter = adapter as RecyclerViewAdapter
                             // FIXME Whatever notification I use, items get added back in the view
                             //   until I switch to another view and back to the list.
-                            // recyclerViewAdapter.notifyItemRemoved(position)
-                            // recyclerViewAdapter.notifyItemRangeChanged(position, recyclerViewAdapter.itemCount)
+                            recyclerViewAdapter.notifyItemRemoved(position)
+                            recyclerViewAdapter.notifyItemRangeChanged(
+                                position,
+                                recyclerViewAdapter.itemCount
+                            )
                         }
                     })
 
@@ -102,12 +110,12 @@ class ListFragment : Fragment() {
             }
     }
 
-    private fun getDb(): BookmarkDatabase? {
+    private fun getDb(): BookmarkDatabase {
         val db = context?.let { BookmarkDatabase.getInstance(it) }
         // TODO Shouldn't this be an exception?
         if (db == null) {
             Toast.makeText(context, R.string.error_database_not_found, Toast.LENGTH_LONG).show()
-            return null
+            throw BookmarkKeywordsError.DatabaseNotFoundException
         }
         return db
     }
@@ -116,9 +124,8 @@ class ListFragment : Fragment() {
      * Get all bookmarks the database.
      * TODO This should probably be moved elsewhere.
      */
-    private suspend fun getBookmarks(): List<Bookmark> {
-        val db = getDb() ?: return emptyList()
-        return db.bookmarkDao().getAll()
+    private suspend fun getBookmarks(): MutableList<Bookmark> {
+        return getDb().bookmarkDao().getAll()
     }
 
     /**
@@ -126,8 +133,6 @@ class ListFragment : Fragment() {
      */
     private suspend fun deleteBookmark(keyword: String) {
         val db = getDb()
-        if (db != null) {
-            db.bookmarkDao().findByKeyword(keyword)?.let { db.bookmarkDao().delete(it) }
-        }
+        getDb().bookmarkDao().findByKeyword(keyword)?.let { db.bookmarkDao().delete(it) }
     }
 }

@@ -12,7 +12,7 @@ import com.vctls.bookmarkkeywords.model.Bookmark
 /**
  */
 class RecyclerViewAdapter(
-    private val values: List<Bookmark>
+    private val values: MutableList<Bookmark>
 ) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

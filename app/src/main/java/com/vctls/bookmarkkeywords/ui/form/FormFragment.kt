@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vctls.bookmarkkeywords.MainActivity
+import com.vctls.bookmarkkeywords.R
 import com.vctls.bookmarkkeywords.data.BookmarkDatabase
 import com.vctls.bookmarkkeywords.databinding.FragmentFormBinding
 import com.vctls.bookmarkkeywords.model.Bookmark
@@ -81,7 +83,10 @@ class FormFragment : Fragment() {
     private suspend fun new(keyword: String, template: String, name: String?) {
         val bookmark = Bookmark(null, keyword, template, name)
         val db = context?.let { BookmarkDatabase.getInstance(it) }
-        db?.bookmarkDao()?.insertAll(bookmark)
+        val rowsAffected = db?.bookmarkDao()?.insertOrUpdate(bookmark)
+        if (rowsAffected == 0L) {
+            Toast.makeText(context, R.string.error_no_rows_updated, Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onDestroyView() {

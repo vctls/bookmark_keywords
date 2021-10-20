@@ -10,7 +10,7 @@ import com.vctls.bookmarkkeywords.model.Bookmark
 @Dao
 interface BookmarkDao {
     @Query("SELECT * FROM bookmark")
-    suspend fun getAll(): List<Bookmark>
+    suspend fun getAll(): MutableList<Bookmark>
 
     @Query("SELECT * FROM bookmark WHERE id IN (:bookmarkIds)")
     suspend fun loadAllByIds(bookmarkIds: IntArray): List<Bookmark>
@@ -18,8 +18,11 @@ interface BookmarkDao {
     @Query("SELECT * FROM bookmark WHERE keyword = :keyword LIMIT 1")
     suspend fun findByKeyword(keyword: String): Bookmark?
 
+    @Insert
+    suspend fun insertAll(vararg bookmarks: Bookmark): List<Long>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vararg bookmarks: Bookmark)
+    suspend fun insertOrUpdate(bookmark: Bookmark): Long
 
     @Delete
     suspend fun delete(bookmark: Bookmark)
