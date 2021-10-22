@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -37,7 +37,15 @@ class HomeFragment : Fragment() {
         val query = binding.inputQuery
         val go = binding.btnGo
 
-        go.setOnClickListener { go(query) }
+        query.setOnEditorActionListener { v, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                go(v.text.toString())
+                true
+            } else {
+                false
+            }
+        }
+        go.setOnClickListener { go(query.text.toString()) }
 
 //        homeViewModel.text.observe(
 //            viewLifecycleOwner,
@@ -55,9 +63,8 @@ class HomeFragment : Fragment() {
      * replace placeholders with the given value
      * then open the resulting URL in the default browser.
      */
-    private fun go(query: EditText) {
+    private fun go(queryString: String) {
         // TODO Validate input. In view model, probably?
-        val queryString = query.text.toString()
 
         // Get keyword as first word of string.
         val spaceIndex = queryString.indexOf(' ')
