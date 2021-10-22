@@ -1,10 +1,10 @@
-package com.vctls.bookmarkkeywords.data
+package vctls.bookmarkkeywords.data
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.vctls.bookmarkkeywords.model.Bookmark
+import vctls.bookmarkkeywords.model.Bookmark
 
 private const val NAME = "bookmark"
 

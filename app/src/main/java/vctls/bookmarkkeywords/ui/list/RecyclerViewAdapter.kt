@@ -1,4 +1,4 @@
-package com.vctls.bookmarkkeywords.ui.list
+package vctls.bookmarkkeywords.ui.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.vctls.bookmarkkeywords.databinding.ContentBookmarkListBinding
-import com.vctls.bookmarkkeywords.model.Bookmark
+import vctls.bookmarkkeywords.databinding.ContentBookmarkListBinding
+import vctls.bookmarkkeywords.model.Bookmark
 
 /**
  */

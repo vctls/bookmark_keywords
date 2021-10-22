@@ -1,4 +1,4 @@
-package com.vctls.bookmarkkeywords
+package vctls.bookmarkkeywords
 
 import org.junit.Test
 

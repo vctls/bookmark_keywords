@@ -1,4 +1,4 @@
-package com.vctls.bookmarkkeywords.ui.list
+package vctls.bookmarkkeywords.ui.list
 
 import android.widget.TextView
 

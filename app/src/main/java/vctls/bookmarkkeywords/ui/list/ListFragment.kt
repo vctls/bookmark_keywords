@@ -1,4 +1,4 @@
-package com.vctls.bookmarkkeywords.ui.list
+package vctls.bookmarkkeywords.ui.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.vctls.bookmarkkeywords.R
-import com.vctls.bookmarkkeywords.data.BookmarkDatabase
-import com.vctls.bookmarkkeywords.error.BookmarkKeywordsError
-import com.vctls.bookmarkkeywords.model.Bookmark
+import vctls.bookmarkkeywords.R
+import vctls.bookmarkkeywords.data.BookmarkDatabase
+import vctls.bookmarkkeywords.error.BookmarkKeywordsError
+import vctls.bookmarkkeywords.model.Bookmark
 import kotlinx.coroutines.runBlocking
 
 /**

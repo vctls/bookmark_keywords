@@ -1,4 +1,4 @@
-package com.vctls.bookmarkkeywords.ui.home
+package vctls.bookmarkkeywords.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

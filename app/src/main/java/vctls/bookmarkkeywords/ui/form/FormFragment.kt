@@ -1,4 +1,4 @@
-package com.vctls.bookmarkkeywords.ui.form
+package vctls.bookmarkkeywords.ui.form
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.vctls.bookmarkkeywords.MainActivity
-import com.vctls.bookmarkkeywords.R
-import com.vctls.bookmarkkeywords.data.BookmarkDatabase
-import com.vctls.bookmarkkeywords.databinding.FragmentFormBinding
-import com.vctls.bookmarkkeywords.model.Bookmark
+import vctls.bookmarkkeywords.MainActivity
+import vctls.bookmarkkeywords.R
+import vctls.bookmarkkeywords.data.BookmarkDatabase
+import vctls.bookmarkkeywords.databinding.FragmentFormBinding
+import vctls.bookmarkkeywords.model.Bookmark
 import kotlinx.coroutines.runBlocking
 
 class FormFragment : Fragment() {

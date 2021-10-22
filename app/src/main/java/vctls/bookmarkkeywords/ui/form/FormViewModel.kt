@@ -1,4 +1,4 @@
-package com.vctls.bookmarkkeywords.ui.form
+package vctls.bookmarkkeywords.ui.form
 
 import androidx.lifecycle.ViewModel
 

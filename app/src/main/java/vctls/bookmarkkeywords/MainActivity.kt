@@ -1,4 +1,4 @@
-package com.vctls.bookmarkkeywords
+package vctls.bookmarkkeywords
 
 import android.os.Bundle
 import android.view.Menu
@@ -11,7 +11,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import com.vctls.bookmarkkeywords.databinding.ActivityMainBinding
+import vctls.bookmarkkeywords.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

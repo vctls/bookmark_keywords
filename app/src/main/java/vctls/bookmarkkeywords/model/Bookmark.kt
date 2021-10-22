@@ -1,4 +1,4 @@
-package com.vctls.bookmarkkeywords.model
+package vctls.bookmarkkeywords.model
 
 import androidx.room.Entity
 import androidx.room.Index

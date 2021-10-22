@@ -1,4 +1,4 @@
-package com.vctls.bookmarkkeywords.ui.home
+package vctls.bookmarkkeywords.ui.home
 
 import android.content.Intent
 import android.net.Uri
@@ -10,9 +10,9 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.vctls.bookmarkkeywords.R
-import com.vctls.bookmarkkeywords.data.BookmarkDatabase
-import com.vctls.bookmarkkeywords.databinding.FragmentHomeBinding
+import vctls.bookmarkkeywords.R
+import vctls.bookmarkkeywords.data.BookmarkDatabase
+import vctls.bookmarkkeywords.databinding.FragmentHomeBinding
 import kotlinx.coroutines.runBlocking
 
 class HomeFragment : Fragment() {

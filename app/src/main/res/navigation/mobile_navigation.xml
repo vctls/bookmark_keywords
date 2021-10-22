@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.vctls.bookmarkkeywords.ui.home.HomeFragment"
+        android:name="vctls.bookmarkkeywords.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_list"
-        android:name="com.vctls.bookmarkkeywords.ui.list.ListFragment"
+        android:name="vctls.bookmarkkeywords.ui.list.ListFragment"
         android:label="List"
         tools:layout="@layout/fragment_bookmark_list">
         <action
@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/nav_form"
-        android:name="com.vctls.bookmarkkeywords.ui.form.FormFragment"
+        android:name="vctls.bookmarkkeywords.ui.form.FormFragment"
         android:label="Edit bookmark"
         tools:layout="@layout/fragment_form" />
 
