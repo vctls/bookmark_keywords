@@ -10,10 +10,10 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.runBlocking
 import vctls.bookmarkkeywords.R
 import vctls.bookmarkkeywords.data.BookmarkDatabase
 import vctls.bookmarkkeywords.databinding.FragmentHomeBinding
-import kotlinx.coroutines.runBlocking
 
 class HomeFragment : Fragment() {
 
@@ -47,12 +47,8 @@ class HomeFragment : Fragment() {
         }
         go.setOnClickListener { go(query.text.toString()) }
 
-//        homeViewModel.text.observe(
-//            viewLifecycleOwner,
-//            Observer {
-//                textView.text = it
-//            }
-//        )
+        // Immediately focus the query field on opening the home view.
+        query.requestFocus()
 
         return root
     }
@@ -89,7 +85,7 @@ class HomeFragment : Fragment() {
         }
 
         if (template === "") {
-            // TODO Handle unknown keyword.
+            // Handle unknown keyword.
             Toast.makeText(
                 context,
                 R.string.error_keyword_not_found,
@@ -116,18 +112,6 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun findTemplate(keyword: String): String? {
-        // TODO Don't even try if string is empty.
-        val templates = hashMapOf(
-            "du" to "https://duckduckgo.com/%s",
-            "g" to "https://www.google.fr/search?newwindow=1&hl=en&q=%s",
-            "enfr" to "http://www.wordreference.com/enfr/%s",
-            "fren" to "http://www.wordreference.com/fren/%s",
-            "cnrtl" to "http://www.cnrtl.fr/definition/%s",
-        )
-        return templates[keyword]
     }
 
     /**

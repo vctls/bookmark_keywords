@@ -43,10 +43,9 @@ on whatever search bar or browser you are using.
 
 ## TODO
 
-[] Add a widget.
-[] Allow searching for bookmarks.
-[] Add tags, as in Firefox, to make searching easier.
 [] Import bookmarks from Firefox or launcher apps.
 [] Import an URL through the _share_ button of another app.
-[] Allow multiple templates in order to search on multiple sites at once.
+[] Allow searching for bookmarks.
+[] Add tags, as in Firefox, to make searching easier.
 [] Suggest keyword autocompletion when typing in the query input.
+[] Allow multiple templates in order to search on multiple sites at once.

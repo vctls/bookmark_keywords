@@ -7,7 +7,6 @@
     Any way to force database recreation without using migrations during development?
     -->
     <application
-
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@drawable/ic_star_magnifier"
@@ -24,17 +23,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <receiver
-            android:name="vctls.bookmarkkeywords.ui.widget.WidgetProvider"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget" />
-        </receiver>
-
     </application>
 </manifest>
