@@ -34,7 +34,7 @@ If the URL starts with `https://`, it will most likely open in your default brow
 Even if you use a native search bar, bangs will open the DuckDuckGo website first before redirecting to the corresponding site.
 They are less customizable.
 Bangs require you to type an exclamation mark immediately followed by the keyword, but some Android
-keyboards,like SwiftKey, automatically add a space after punctuation, so you would need to either
+keyboards, like SwiftKey, automatically add a space after punctuation, so you would need to either
 enter backspace every time, disable that feature on your keyboard, or somehow use an URL type input
 field where this feature is usually disabled, but that's a choice for the developers to make
 on whatever search bar or browser you are using.
