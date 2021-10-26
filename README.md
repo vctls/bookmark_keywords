@@ -21,7 +21,7 @@ like [Conjure](https://c.onjure.com/) or [QuickDroid](https://github.com/Himmele
 
 Home |  List | Form
 :-:|:-:|:-:
-![](doc/home.png)  |  ![](doc/list.png) | ![](doc/form.png) 
+![home view](doc/home.png)  |  ![list view](doc/list.png) | ![edit form](doc/form.png) 
 
 ### Remarks
 
@@ -34,10 +34,10 @@ The app will attempt to open the URL with whatever the default application is fo
 If the URL starts with `https://`, it will most likely open in your default browser
 (which should be Firefox), but the template can be anything you want.
 
-## Why not use DuckDuckGo's “bangs”?
+## Why not use [DuckDuckGo's “bangs”](https://duckduckgo.com/bang)?
 
-Even if you use a native search bar, bangs will open the DuckDuckGo website first before redirecting to the corresponding site.
-They are less customizable.
+Even if you use a native search bar, bangs will open the DuckDuckGo website first before redirecting to the corresponding site.  
+They are less customizable.  
 Bangs require you to type an exclamation mark immediately followed by the keyword, but some Android
 keyboards, like SwiftKey, automatically add a space after punctuation, so you would need to either
 enter backspace every time, disable that feature on your keyboard, or somehow use an URL type input
