@@ -13,10 +13,14 @@ like [Conjure](https://c.onjure.com/) or [QuickDroid](https://github.com/Himmele
 ## Usage
 
 1. Add a bookmark with a URL template and a keyword.
-Use the placeholder `%s` in the URL where you want your search string to go, for example:
-`https://duckduckgo.com/%s`
+  Use the placeholder `%s` in the URL where you want your search string to go, for example:
+  `https://duckduckgo.com/%s`
 2. In the query input, type the keyword followed by a space then the phrase you want to search.
 3. Type Enter or tap the `Go` button.
+
+<img src="doc/home.png" alt="home" style="zoom:25%;" />
+<img src="doc/list.png" alt="list" style="zoom:25%;" />
+<img src="doc/form.png" alt="form" style="zoom:25%;" />
 
 ### Remarks
 
