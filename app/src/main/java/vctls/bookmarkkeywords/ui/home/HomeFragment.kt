@@ -17,6 +17,7 @@ import vctls.bookmarkkeywords.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
+    private val placeholder = "%s"
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
 
@@ -94,7 +95,7 @@ class HomeFragment : Fragment() {
             return
         }
 
-        val url = String.format(template, search)
+        val url = template.replace(placeholder, search)
 
         // Try to open URL with the default app.
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
