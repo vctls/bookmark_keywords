@@ -33,7 +33,7 @@ In that case, whatever you type after the keyword will be ignored.
 The app will attempt to open the URL with whatever the default application is for the given protocol.
 If the URL starts with `https://`, it will most likely open in your default browser, but the template can be anything you want.
 
-## Why not use the native custom search engines feature of Firefox for Android?
+## Why not use the native search engines feature of Firefox?
 
 It requires you to open your browser first, possibly click the omni-bar if a page is already open,
 then switch search engines. More clicks, basically.
