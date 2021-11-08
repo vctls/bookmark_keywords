@@ -36,9 +36,10 @@ If the URL starts with `https://`, it will most likely open in your default brow
 ## Why not use the native search engines feature of Firefox?
 
 It requires you to open your browser first, possibly click the omni-bar if a page is already open,
-then switch search engines. More clicks, basically.
+then switch search engines. More clicks, basically.  
 It's easier to just type a keyword than looking through the list of search engines when you have lots of them,
-possibly on the same domain and with the same icon.
+possibly on the same domain and with the same icon.  
+Omni-bars used by most browsers nowadays have the anoying “feature” of deciding for you whether your query is to be searched or opened as an URL, usually depending on whether or not it contains dots. Bookmark keywords ensure the query is always searched.  
 Also, this app works with whatever the default client (browser) is for the given protocol.
 
 ## Why not use [DuckDuckGo's “bangs”](https://duckduckgo.com/bang)?
