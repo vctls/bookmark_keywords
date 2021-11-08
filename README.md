@@ -19,9 +19,9 @@ like [Conjure](https://c.onjure.com/) or [QuickDroid](https://github.com/Himmele
 3. Type Enter or tap the `Go` button.
 4. To edit a bookmark, simply open the list view and tap the corresponding row.
 
-Home |  List | Form
+Go |  List | Form
 :-:|:-:|:-:
-![home view](doc/home.png)  |  ![list view](doc/list.png) | ![edit form](doc/form.png) 
+![go view](doc/go.png)  |  ![list view](doc/list.png) | ![edit form](doc/form.png)
 
 ### Remarks
 

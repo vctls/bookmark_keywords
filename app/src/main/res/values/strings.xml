@@ -10,7 +10,7 @@
     <string name="nav_header_title">Bookmark Keywords</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="menu_home">Home</string>
+    <string name="menu_go">Go</string>
     <string name="menu_list">List</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="button_description_add_bookmark">Add a new bookmark</string>

@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.runBlocking
 import vctls.bookmarkkeywords.MainActivity
 import vctls.bookmarkkeywords.R
 import vctls.bookmarkkeywords.data.BookmarkDatabase
 import vctls.bookmarkkeywords.databinding.FragmentFormBinding
 import vctls.bookmarkkeywords.model.Bookmark
-import kotlinx.coroutines.runBlocking
 
 class FormFragment : Fragment() {
 

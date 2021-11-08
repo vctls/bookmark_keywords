@@ -1,4 +1,4 @@
-package vctls.bookmarkkeywords.ui.home
+package vctls.bookmarkkeywords.ui.go
 
 import android.content.Intent
 import android.net.Uri
@@ -13,13 +13,13 @@ import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.runBlocking
 import vctls.bookmarkkeywords.R
 import vctls.bookmarkkeywords.data.BookmarkDatabase
-import vctls.bookmarkkeywords.databinding.FragmentHomeBinding
+import vctls.bookmarkkeywords.databinding.FragmentGoBinding
 
-class HomeFragment : Fragment() {
+class GoFragment : Fragment() {
 
     private val placeholder = "%s"
     private lateinit var homeViewModel: HomeViewModel
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentGoBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
         homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentGoBinding.inflate(inflater, container, false)
 
         val root: View = binding.root
         val query = binding.inputQuery

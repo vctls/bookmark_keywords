@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".ui.go.GoFragment">
 
     <!-- Nested scroll view ensures elements are kept above the soft keyboard. -->
     <!-- https://medium.com/@madalinnita/android-how-to-move-views-above-keyboard-when-its-opened-quick-secure-solution-90188c4d7b15 -->
