@@ -31,8 +31,15 @@ Templates _do not have to_ have a placeholder. You can use the bookmarks as simp
 In that case, whatever you type after the keyword will be ignored.
 
 The app will attempt to open the URL with whatever the default application is for the given protocol.
-If the URL starts with `https://`, it will most likely open in your default browser
-(which should be Firefox), but the template can be anything you want.
+If the URL starts with `https://`, it will most likely open in your default browser, but the template can be anything you want.
+
+## Why not use the native custom search engines feature of Firefox for Android?
+
+It requires you to open your browser first, possibly click the omni-bar if a page is already open,
+then switch search engines. More clicks, basically.
+It's easier to just type a keyword than looking through the list of search engines when you have lots of them,
+possibly on the same domain and with the same icon.
+Also, this app works with whatever the default client (browser) is for the given protocol.
 
 ## Why not use [DuckDuckGo's “bangs”](https://duckduckgo.com/bang)?
 
