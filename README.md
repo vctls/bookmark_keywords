@@ -5,7 +5,9 @@
 This Android app attempts to replicate the behaviour of
 Firefox [bookmark keywords](https://kb.mozillazine.org/Using_keyword_searches),
 a little known, barely documented feature of the browser, that was dropped entirely
-from the mobile version and could as well end up being removed from the desktop version.
+from the mobile version and could as well end up being removed from the desktop version.  
+This feature is also know as [“smart bookmarks”](https://en.wikipedia.org/wiki/Smart_bookmark),
+and appears in other browsers too, natively or through add-ons, with some variations. 
 
 On desktop, this feature can already be replaced using a launcher
 like [Albert](https://albertlauncher.github.io/) on Linux,
@@ -42,9 +44,11 @@ but the template can be anything you want.
 
 It requires you to open your browser first, possibly click the omni-bar if a page is already open,
 then switch search engines. More clicks, basically.  
-It's easier to just type a keyword than looking through the list of search engines when you have lots of them,
-possibly on the same domain and with the same icon.  
-Omni-bars used by most browsers nowadays have the anoying “feature” of deciding for you whether your query is to be searched or opened as an URL, usually depending on whether or not it contains dots. Bookmark keywords ensure the query is always searched.  
+It's easier to just type a keyword than looking through the list of search engines when you have
+lots of them, possibly on the same domain and with the same icon.  
+Omni-bars used by most browsers nowadays have the annoying “feature” of deciding for you whether
+your query is to be searched or opened as an URL, usually depending on whether or not it contains
+dots. Bookmark keywords ensure the query is always searched.  
 Also, this app works with whatever the default client (browser) is for the given protocol.
 
 ## Why not use [DuckDuckGo's “bangs”](https://duckduckgo.com/bang)?
