@@ -2,13 +2,17 @@
 
 ## Objective
 
-This Android app attempts to replicate the behaviour of Firefox [bookmark keywords](https://www-archive.mozilla.org/docs/end-user/keywords.html),
+This Android app attempts to replicate the behaviour of
+Firefox [bookmark keywords](https://kb.mozillazine.org/Using_keyword_searches),
 a little known, barely documented feature of the browser, that was dropped entirely
 from the mobile version and could as well end up being removed from the desktop version.
 
-On desktop, this feature can already be replaced using a launcher like [Albert](https://albertlauncher.github.io/) on Linux,
-[Keypirinha](https://keypirinha.com/) on Windows or [QuickSilver](https://qsapp.com/) on MacOS. Sadly, none of the few equivalent apps on Android,
-like [Conjure](https://c.onjure.com/) or [QuickDroid](https://github.com/Himmele/Quickdroid), seem to have this feature.
+On desktop, this feature can already be replaced using a launcher
+like [Albert](https://albertlauncher.github.io/) on Linux,
+[Keypirinha](https://keypirinha.com/) on Windows or [QuickSilver](https://qsapp.com/) on MacOS.
+Sadly, none of the few equivalent apps on Android,
+like [Conjure](https://c.onjure.com/) or [QuickDroid](https://github.com/Himmele/Quickdroid), 
+seem to have this feature.
 
 ## Usage
 
@@ -31,9 +35,10 @@ Templates _do not have to_ have a placeholder. You can use the bookmarks as simp
 In that case, whatever you type after the keyword will be ignored.
 
 The app will attempt to open the URL with whatever the default application is for the given protocol.
-If the URL starts with `https://`, it will most likely open in your default browser, but the template can be anything you want.
+If the URL starts with `https://`, it will most likely open in your default browser,
+but the template can be anything you want.
 
-## Why not use the native search engines feature of Firefox?
+## Why not use the [native search engines feature of Firefox](https://support.mozilla.org/en-US/kb/manage-my-default-search-engines-firefox-android)?
 
 It requires you to open your browser first, possibly click the omni-bar if a page is already open,
 then switch search engines. More clicks, basically.  
@@ -44,7 +49,8 @@ Also, this app works with whatever the default client (browser) is for the given
 
 ## Why not use [DuckDuckGo's “bangs”](https://duckduckgo.com/bang)?
 
-Even if you use a native search bar, bangs will open the DuckDuckGo website first before redirecting to the corresponding site.  
+Even if you use a native search bar, bangs will open the DuckDuckGo website first before
+redirecting to the corresponding site.  
 They are less customizable.  
 Bangs require you to type an exclamation mark immediately followed by the keyword, but some Android
 keyboards, like SwiftKey, automatically add a space after punctuation, so you would need to either
