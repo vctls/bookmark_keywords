@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.navView.menu.findItem(R.id.nav_export).setOnMenuItemClickListener {
+        binding.navView.menu.findItem(R.id.btn_export).setOnMenuItemClickListener {
             resultLauncher.launch(intent)
             true
         }

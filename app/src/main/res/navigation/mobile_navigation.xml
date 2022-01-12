@@ -21,8 +21,7 @@
             app:destination="@id/nav_form">
             <argument
                 android:name="keyword"
-                app:argType="string"
-                />
+                app:argType="string" />
         </action>
     </fragment>
 

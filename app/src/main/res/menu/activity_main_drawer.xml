@@ -12,10 +12,9 @@
             android:id="@+id/nav_list"
             android:icon="@drawable/ic_menu_list"
             android:title="@string/menu_list" />
-        <item
-            android:id="@+id/nav_export"
-            android:icon="@drawable/ic_export"
-            android:title="@string/menu_export"
-            />
     </group>
+    <item
+        android:id="@+id/btn_export"
+        android:icon="@drawable/ic_export"
+        android:title="@string/menu_export" />
 </menu>
