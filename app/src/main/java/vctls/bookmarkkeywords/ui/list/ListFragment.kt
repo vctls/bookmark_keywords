@@ -10,11 +10,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import vctls.bookmarkkeywords.R
-import vctls.bookmarkkeywords.data.BookmarkDatabase
-import vctls.bookmarkkeywords.error.BookmarkKeywordsError
-import vctls.bookmarkkeywords.model.Bookmark
 import kotlinx.coroutines.runBlocking
+import vctls.bookmarkkeywords.MainActivity
+import vctls.bookmarkkeywords.R
+import vctls.bookmarkkeywords.model.Bookmark
 
 /**
  * A fragment representing a list of Items.
@@ -48,7 +47,7 @@ class ListFragment : Fragment() {
                 var bookmarks: MutableList<Bookmark>
 
                 // TODO Again, this should probably not be blocking.
-                runBlocking { bookmarks = getBookmarks() }
+                runBlocking { bookmarks = (activity as MainActivity).getBookmarks() }
 
                 adapter = RecyclerViewAdapter(bookmarks)
 
@@ -70,7 +69,7 @@ class ListFragment : Fragment() {
                             val bookmarkViewHolder = viewHolder as BookmarkViewHolder
                             val keyword = bookmarkViewHolder.keywordView.text.toString()
                             runBlocking {
-                                deleteBookmark(keyword)
+                                (activity as MainActivity).deleteBookmark(keyword)
                             }
                             bookmarks.remove(bookmarks.find { it.keyword == keyword })
                             Toast.makeText(context, R.string.bookmark_deleted, Toast.LENGTH_SHORT)
@@ -108,31 +107,5 @@ class ListFragment : Fragment() {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                 }
             }
-    }
-
-    private fun getDb(): BookmarkDatabase {
-        val db = context?.let { BookmarkDatabase.getInstance(it) }
-        // TODO Shouldn't this be an exception?
-        if (db == null) {
-            Toast.makeText(context, R.string.error_database_not_found, Toast.LENGTH_LONG).show()
-            throw BookmarkKeywordsError.DatabaseNotFoundException
-        }
-        return db
-    }
-
-    /**
-     * Get all bookmarks the database.
-     * TODO This should probably be moved elsewhere.
-     */
-    private suspend fun getBookmarks(): MutableList<Bookmark> {
-        return getDb().bookmarkDao().getAll()
-    }
-
-    /**
-     * Delete a bookmark identified by its keyword.
-     */
-    private suspend fun deleteBookmark(keyword: String) {
-        val db = getDb()
-        getDb().bookmarkDao().findByKeyword(keyword)?.let { db.bookmarkDao().delete(it) }
     }
 }

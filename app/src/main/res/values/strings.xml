@@ -22,4 +22,9 @@
     <string name="bookmark_deleted">Bookmark deleted.</string>
     <string name="error_database_not_found">Database not found</string>
     <string name="error_no_rows_updated">No rows were inserted or updated.</string>
+    <string name="menu_export">Export</string>
+    <string name="date_format">yyyy-MM-dd_hh-mm-ss</string>
+    <string name="export_suffix">_bookmark_keywords.csv</string>
+    <string name="toast_export_ok">Bookmarks exported.</string>
+    <string name="toast_export_nok">Export cancelled.</string>
 </resources>
