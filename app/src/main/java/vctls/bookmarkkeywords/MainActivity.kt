@@ -1,9 +1,11 @@
 package vctls.bookmarkkeywords
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -24,8 +26,7 @@ import java.io.OutputStream
 import java.io.OutputStreamWriter
 import java.text.SimpleDateFormat
 import java.util.Date
-
-const val CREATE_FILE = 1
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -65,10 +66,42 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.nav_form)
         }
 
+        val filename = SimpleDateFormat(
+            getString(R.string.date_format),
+            Locale.getDefault()
+        ).format(Date()) + getString(R.string.export_suffix)
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "text/csv"
+            putExtra(Intent.EXTRA_TITLE, filename)
+        }
+
+        val startActivityForResult = ActivityResultContracts.StartActivityForResult()
+        val resultLauncher = registerForActivityResult(startActivityForResult) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data?.data is Uri) {
+                val data: Intent? = result.data
+                val uri = data?.data
+                if (uri != null) {
+                    save(uri)
+                    toast(getString(R.string.toast_export_ok))
+                } else {
+                    toast(getString(R.string.toast_export_cancelled))
+                }
+            }
+        }
+
         binding.navView.menu.findItem(R.id.nav_export).setOnMenuItemClickListener {
-            export()
+            resultLauncher.launch(intent)
             true
         }
+    }
+
+    private fun toast(message: String, long: Boolean = false) {
+        Toast.makeText(
+            applicationContext,
+            message,
+            if (long) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
+        ).show()
     }
 
     fun hasFab(): Boolean {
@@ -76,17 +109,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Export the database to a file.
+     * Save export file.
      */
-    private fun export() {
-        val filename =
-            SimpleDateFormat(getString(R.string.date_format)).format(Date()) + getString(R.string.export_suffix)
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "text/csv"
-            putExtra(Intent.EXTRA_TITLE, filename)
+    private fun save(uri: Uri) {
+        // Get the bookmarks.
+        runBlocking {
+            val bookmarks = getBookmarks()
+            val builder = StringBuilder()
+
+            // Make a CSV string.
+            builder.append("\"name\";\"template\";\"keyword\"\n")
+            for (bookmark in bookmarks) {
+                builder
+                    .append(quote(bookmark.name) + ";")
+                    .append(quote(bookmark.template) + ";")
+                    .append(quote(bookmark.keyword) + "\n")
+            }
+            writeInFile(uri, builder.toString())
         }
-        startActivityForResult(intent, CREATE_FILE)
     }
 
     /**
@@ -94,45 +134,6 @@ class MainActivity : AppCompatActivity() {
      */
     private fun quote(string: String?): String {
         return "\"" + string?.replace("\"", "\\\"") + "\""
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CREATE_FILE) {
-            val uri = data?.data
-            when (resultCode) {
-                RESULT_OK -> if (uri != null) {
-
-                    // Get the bookmarks.
-                    runBlocking {
-                        val bookmarks = getBookmarks()
-                        val builder = StringBuilder()
-
-                        // Make a CSV string.
-                        builder.append("\"name\";\"template\";\"keyword\"\n")
-                        for (bookmark in bookmarks) {
-                            builder
-                                .append(quote(bookmark.name) + ";")
-                                .append(quote(bookmark.template) + ";")
-                                .append(quote(bookmark.keyword) + "\n")
-                        }
-                        writeInFile(uri, builder.toString())
-                    }
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.toast_export_ok),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                RESULT_CANCELED -> {
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.toast_export_nok),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
     }
 
     private fun writeInFile(uri: Uri, text: String) {
@@ -155,7 +156,7 @@ class MainActivity : AppCompatActivity() {
         val context = this.applicationContext
         val db = context?.let { BookmarkDatabase.getInstance(it) }
         if (db == null) {
-            Toast.makeText(context, R.string.error_database_not_found, Toast.LENGTH_LONG).show()
+            toast(getString(R.string.error_database_not_found), true)
             throw BookmarkKeywordsError.DatabaseNotFoundException
         }
         return db
