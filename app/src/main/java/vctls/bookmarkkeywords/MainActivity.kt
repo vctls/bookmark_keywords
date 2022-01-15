@@ -20,10 +20,7 @@ import vctls.bookmarkkeywords.data.BookmarkDatabase
 import vctls.bookmarkkeywords.databinding.ActivityMainBinding
 import vctls.bookmarkkeywords.error.BookmarkKeywordsError
 import vctls.bookmarkkeywords.model.Bookmark
-import java.io.BufferedWriter
-import java.io.IOException
-import java.io.OutputStream
-import java.io.OutputStreamWriter
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -70,19 +67,25 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.date_format),
             Locale.getDefault()
         ).format(Date()) + getString(R.string.export_suffix)
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+
+        val createIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "text/csv"
             putExtra(Intent.EXTRA_TITLE, filename)
         }
 
-        val startActivityForResult = ActivityResultContracts.StartActivityForResult()
-        val resultLauncher = registerForActivityResult(startActivityForResult) { result ->
+        val readIntent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "text/*"
+        }
+
+        val forResult = ActivityResultContracts.StartActivityForResult()
+        val exportLauncher = registerForActivityResult(forResult) { result ->
             if (result.resultCode == Activity.RESULT_OK && result.data?.data is Uri) {
                 val data: Intent? = result.data
                 val uri = data?.data
                 if (uri != null) {
-                    save(uri)
+                    export(uri)
                     toast(getString(R.string.toast_export_ok))
                 } else {
                     toast(getString(R.string.toast_export_cancelled))
@@ -90,8 +93,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val importLauncher = registerForActivityResult(forResult) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data?.data is Uri) {
+                val data: Intent? = result.data
+                val uri = data?.data
+                if (uri != null) {
+                    import(uri)
+                    // TODO Refresh the list!
+                    toast(getString(R.string.toast_import_ok))
+                } else {
+                    toast(getString(R.string.toast_import_cancelled))
+                }
+            }
+        }
+
         binding.navView.menu.findItem(R.id.btn_export).setOnMenuItemClickListener {
-            resultLauncher.launch(intent)
+            exportLauncher.launch(createIntent)
+            true
+        }
+
+        binding.navView.menu.findItem(R.id.btn_import).setOnMenuItemClickListener {
+            importLauncher.launch(readIntent)
             true
         }
     }
@@ -109,44 +131,92 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Save export file.
+     * Export bookmarks to a file.
      */
-    private fun save(uri: Uri) {
+    private fun export(uri: Uri) {
         // Get the bookmarks.
         runBlocking {
             val bookmarks = getBookmarks()
             val builder = StringBuilder()
 
             // Make a CSV string.
-            builder.append("\"name\";\"template\";\"keyword\"\n")
+            builder.append("\"keyword\";\"template\";\"name\"\n")
             for (bookmark in bookmarks) {
                 builder
-                    .append(quote(bookmark.name) + ";")
+                    .append(quote(bookmark.keyword) + ";")
                     .append(quote(bookmark.template) + ";")
-                    .append(quote(bookmark.keyword) + "\n")
+                    .append(quote(bookmark.name) + "\n")
             }
-            writeInFile(uri, builder.toString())
+            val outputStream: OutputStream?
+            try {
+                outputStream = contentResolver.openOutputStream(uri)
+                val bw = BufferedWriter(OutputStreamWriter(outputStream))
+                bw.write(builder.toString())
+                bw.flush()
+                bw.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
         }
+    }
+
+    /**
+     * Import bookmarks from a file.
+     */
+    private fun import(uri: Uri) {
+        // Read content of the file.
+        val inputStream: InputStream?
+        val lines: MutableList<String>
+        try {
+            inputStream = contentResolver.openInputStream(uri)
+            val bw = BufferedReader(InputStreamReader(inputStream))
+            lines = bw.readLines().toMutableList()
+            bw.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return
+        }
+
+        // Interpret content as CSV.
+        val bookmarks = mutableListOf<Bookmark>()
+        var fields: List<String>
+        val headers = lines.removeFirst()
+        val expectedFields = 3
+
+        for ((i, line) in lines.withIndex()) {
+            fields = line.split(";")
+            val count = fields.count()
+            if (count != expectedFields) {
+                throw Exception("Expected $expectedFields fields, found $count at line $i")
+            }
+            bookmarks.add(
+                Bookmark(
+                    null,
+                    unquote(fields[0]),
+                    unquote(fields[1]),
+                    unquote(fields[2])
+                )
+            )
+        }
+
+        // Add missing keywords to the database.
+        runBlocking {
+            getDb().bookmarkDao().insertAll(*bookmarks.toTypedArray())
+        }
+    }
+
+    /**
+     * Remove double quotes from CSV strings.
+     */
+    private fun unquote(string: String?): String {
+        return string?.replace("^\"|\"\$".toRegex(), "")?.replace("\"\"", "\"") ?: ""
     }
 
     /**
      * Add the necessary double quotes for CSV strings.
      */
     private fun quote(string: String?): String {
-        return "\"" + string?.replace("\"", "\\\"") + "\""
-    }
-
-    private fun writeInFile(uri: Uri, text: String) {
-        val outputStream: OutputStream?
-        try {
-            outputStream = contentResolver.openOutputStream(uri)
-            val bw = BufferedWriter(OutputStreamWriter(outputStream))
-            bw.write(text)
-            bw.flush()
-            bw.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+        return "\"" + string?.replace("\"", "\"\"") + "\""
     }
 
     /**

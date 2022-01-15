@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_nav"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_go"
             android:icon="@drawable/ic_menu_search"
@@ -13,8 +15,16 @@
             android:icon="@drawable/ic_menu_list"
             android:title="@string/menu_list" />
     </group>
-    <item
-        android:id="@+id/btn_export"
-        android:icon="@drawable/ic_export"
-        android:title="@string/menu_export" />
+    <group
+        android:id="@+id/menu_buttons"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/btn_export"
+            android:icon="@drawable/ic_export"
+            android:title="@string/menu_export" />
+        <item
+            android:id="@+id/btn_import"
+            android:icon="@drawable/ic_import"
+            android:title="@string/menu_import" />
+    </group>
 </menu>

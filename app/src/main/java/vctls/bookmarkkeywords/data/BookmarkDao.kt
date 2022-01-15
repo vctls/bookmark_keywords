@@ -18,7 +18,11 @@ interface BookmarkDao {
     @Query("SELECT * FROM bookmark WHERE keyword = :keyword LIMIT 1")
     suspend fun findByKeyword(keyword: String): Bookmark?
 
-    @Insert
+    /**
+     * Insert a list of bookmarks.
+     * If a keyword exists, it will be ignored.
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(vararg bookmarks: Bookmark): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
