@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -46,7 +45,6 @@ class ListFragment : Fragment() {
                 }
                 var bookmarks: MutableList<Bookmark>
 
-                // TODO Again, this should probably not be blocking.
                 runBlocking { bookmarks = (activity as MainActivity).getBookmarks() }
 
                 adapter = RecyclerViewAdapter(bookmarks)
@@ -68,17 +66,16 @@ class ListFragment : Fragment() {
                         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                             val bookmarkViewHolder = viewHolder as BookmarkViewHolder
                             val keyword = bookmarkViewHolder.keywordView.text.toString()
+                            val mainActivity = activity as MainActivity
                             runBlocking {
-                                (activity as MainActivity).deleteBookmark(keyword)
+                                mainActivity.deleteBookmark(keyword)
                             }
                             bookmarks.remove(bookmarks.find { it.keyword == keyword })
-                            Toast.makeText(context, R.string.bookmark_deleted, Toast.LENGTH_SHORT)
-                                .show()
-                            // FIXME The item is removed from the database but not the view.
+                            mainActivity.toast(getString(R.string.bookmark_deleted))
+
                             val position = viewHolder.bindingAdapterPosition
                             val recyclerViewAdapter = adapter as RecyclerViewAdapter
-                            // FIXME Whatever notification I use, items get added back in the view
-                            //   until I switch to another view and back to the list.
+
                             recyclerViewAdapter.notifyItemRemoved(position)
                             recyclerViewAdapter.notifyItemRangeChanged(
                                 position,

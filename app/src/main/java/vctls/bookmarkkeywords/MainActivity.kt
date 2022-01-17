@@ -63,6 +63,8 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.nav_form)
         }
 
+        // TODO DRY
+
         val filename = SimpleDateFormat(
             getString(R.string.date_format),
             Locale.getDefault()
@@ -98,9 +100,9 @@ class MainActivity : AppCompatActivity() {
                 val data: Intent? = result.data
                 val uri = data?.data
                 if (uri != null) {
-                    import(uri)
+                    val counts = import(uri)
                     // TODO Refresh the list!
-                    toast(getString(R.string.toast_import_ok))
+                    toast(getString(R.string.toast_import_ok, counts[0], counts[1]))
                 } else {
                     toast(getString(R.string.toast_import_cancelled))
                 }
@@ -118,7 +120,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun toast(message: String, long: Boolean = false) {
+    fun toast(message: String, long: Boolean = false) {
         Toast.makeText(
             applicationContext,
             message,
@@ -162,25 +164,23 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Import bookmarks from a file.
+     *
+     * TODO Maybe add some validation.
      */
-    private fun import(uri: Uri) {
+    private fun import(uri: Uri): List<Int> {
         // Read content of the file.
-        val inputStream: InputStream?
         val lines: MutableList<String>
-        try {
-            inputStream = contentResolver.openInputStream(uri)
-            val bw = BufferedReader(InputStreamReader(inputStream))
-            lines = bw.readLines().toMutableList()
-            bw.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return
-        }
+        val inputStream: InputStream? = contentResolver.openInputStream(uri)
+        val bw = BufferedReader(InputStreamReader(inputStream))
+        lines = bw.readLines().toMutableList()
+        bw.close()
 
         // Interpret content as CSV.
         val bookmarks = mutableListOf<Bookmark>()
         var fields: List<String>
-        val headers = lines.removeFirst()
+
+        // Remove the headers.
+        lines.removeFirst()
         val expectedFields = 3
 
         for ((i, line) in lines.withIndex()) {
@@ -198,11 +198,13 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         }
-
+        val longs: List<Long>
         // Add missing keywords to the database.
         runBlocking {
-            getDb().bookmarkDao().insertAll(*bookmarks.toTypedArray())
+            longs = getDb().bookmarkDao().insertAll(*bookmarks.toTypedArray())
         }
+        val imported: Int = longs.reduce { acc, next -> if (next > 0) acc + 1 else acc }.toInt()
+        return listOf(longs.count(), if (imported == -1) 0 else imported)
     }
 
     /**
