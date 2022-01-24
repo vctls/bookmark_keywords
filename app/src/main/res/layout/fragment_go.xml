@@ -22,21 +22,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <EditText
-                android:id="@+id/inputQuery"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/queryLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:endIconMode="clear_text"
+                style="@style/TextInputLayout"
                 android:layout_marginTop="20dp"
-                android:ems="10"
-                android:hint="@string/input_hint_query"
-                android:importantForAutofill="no"
-                android:inputType="textFilter"
-                android:minHeight="48dp"
-                android:imeOptions="actionDone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/inputQuery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/input_hint_query"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="textFilter"
+                    android:minHeight="48dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnGo"
@@ -47,7 +56,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/inputQuery" />
+                app:layout_constraintTop_toBottomOf="@+id/queryLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
