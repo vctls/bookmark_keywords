@@ -101,8 +101,9 @@ class MainActivity : AppCompatActivity() {
                 val uri = data?.data
                 if (uri != null) {
                     val counts = import(uri)
-                    // TODO Refresh the list!
                     toast(getString(R.string.toast_import_ok, counts[0], counts[1]))
+                    // Refresh the list.
+                    navController.navigate(R.id.nav_list)
                 } else {
                     toast(getString(R.string.toast_import_cancelled))
                 }
