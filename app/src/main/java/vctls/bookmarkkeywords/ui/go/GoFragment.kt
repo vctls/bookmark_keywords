@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.runBlocking
@@ -51,7 +53,23 @@ class GoFragment : Fragment() {
         // Immediately focus the query field on opening the home view.
         query.requestFocus()
 
+        // Force the keyboard to show up after switching to and from another view.
+        // The problem seems to come from the fact that the view is not immediately focusable
+        // after navigation.
+        // https://stackoverflow.com/questions/5105354/how-to-show-soft-keyboard-when-edittext-is-focused
+        // TODO Make sure this is not causing any problems in the background.
+        query.viewTreeObserver.addOnGlobalLayoutListener {
+            showSoftKeyboard(query)
+        }
+
         return root
+    }
+
+    private fun showSoftKeyboard(view: View) {
+        if (view.hasWindowFocus()) {
+            val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
+            imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        }
     }
 
     /**
