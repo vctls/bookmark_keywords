@@ -51,7 +51,7 @@ class FormFragment : Fragment() {
         try {
             if (requireArguments().containsKey("keyword")) {
                 runBlocking {
-                    bookmark = getBookmark(arguments?.get("keyword") as String)
+                    bookmark = getBookmark(arguments?.getString("keyword") as String)
                 }
             }
         } catch (e: IllegalStateException) {
