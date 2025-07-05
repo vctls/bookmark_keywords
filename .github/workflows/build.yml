@@ -40,7 +40,7 @@ jobs:
 
       - name: Generate file name env var
         run: |
-          VERSION_NAME=$(${{github.workspace}}/gradlew -q printVersionName)
+          VERSION_NAME=${{ github.ref_name }}
           MESSAGE=$(cat << EOF
           BK_${VERSION_NAME}-release
           EOF)
