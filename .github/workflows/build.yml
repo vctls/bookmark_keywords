@@ -40,7 +40,7 @@ jobs:
 
       - name: Generate file name env var
         run: |
-          VERSION_NAME=${{ github.ref_name }}
+          VERSION_NAME=${{ github.ref }}
           MESSAGE=$(cat << EOF
           BK_${VERSION_NAME}-release
           EOF
@@ -58,22 +58,8 @@ jobs:
       - name: Upload release APK
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.OUTPUT_NAME }}
+          name: ${{ env.OUTPUT_NAME }}.apk
           path: app/build/outputs/apk/release/${{ env.OUTPUT_NAME }}.apk
-
-      - name: Build release AAB
-        run: ./gradlew bundleRelease --stacktrace
-
-      - name: Rename AAB
-        run: |
-          mv "./app/build/outputs/bundle/release/app-release.aab" \
-             "./app/build/outputs/bundle/release/${{ env.OUTPUT_NAME }}.aab"
-
-      - name: Upload debug AAB
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.OUTPUT_NAME }}
-          path: app/build/outputs/bundle/release/${{ env.OUTPUT_NAME }}.aab
 
       - name: Create Release
         id: create_release
