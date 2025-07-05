@@ -40,7 +40,7 @@ jobs:
 
       - name: Generate file name env var
         run: |
-          VERSION_NAME=${{ github.ref }}
+          VERSION_NAME=${{ github.ref_name }}
           MESSAGE=$(cat << EOF
           BK_${VERSION_NAME}-release
           EOF
@@ -67,8 +67,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
 
