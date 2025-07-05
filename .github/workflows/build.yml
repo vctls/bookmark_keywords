@@ -26,14 +26,53 @@ jobs:
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
 
-      - name: Assemble
-        run: ./gradlew assembleRelease
+      - name: Decode keystore and create jks
+        run: echo "${{ secrets.KEYSTORE_JKS_BASE64 }}" | base64 --decode > keystore.jks
 
-      - name: Upload APK Release
+      - name: Generate keystore.properties
+        run: |
+          cat <<EOF > keystore.properties
+          storePassword:${{ secrets.KEYSTORE_STORE_PASSWORD }}
+          keyPassword:${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          keyAlias:${{ secrets.KEYSTORE_KEY_ALIAS }}
+          storeFile:${{ vars.KEYSTORE_STORE_FILE_PATH }}
+          EOF
+
+      - name: Generate file name env var
+        run: |
+          VERSION_NAME=$(${{github.workspace}}/gradlew -q printVersionName)
+          MESSAGE=$(cat << EOF
+          BK_${VERSION_NAME}-release
+          EOF)
+          echo OUTPUT_NAME=$MESSAGE >> $GITHUB_ENV
+
+      - name: Assemble
+        run: ./gradlew assembleRelease --stacktrace
+
+      - name: Rename APK
+        run: |
+          mv "./app/build/outputs/apk/release/app-release.apk" \
+             "./app/build/outputs/apk/release/${{ env.OUTPUT_NAME }}.apk"
+
+      - name: Upload release APK
         uses: actions/upload-artifact@v4
         with:
-          name: APK release generated
-          path: ./app/build/outputs/apk/release/app-release-unsigned.apk
+          name: ${{ env.OUTPUT_NAME }}
+          path: app/build/outputs/apk/release/${{ env.OUTPUT_NAME }}.apk
+
+      - name: Build release AAB
+        run: ./gradlew bundleRelease --stacktrace
+
+      - name: Rename AAB
+        run: |
+          mv "./app/build/outputs/bundle/release/app-release.aab" \
+             "./app/build/outputs/bundle/release/${{ env.OUTPUT_NAME }}.aab"
+
+      - name: Upload debug AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.OUTPUT_NAME }}
+          path: app/build/outputs/bundle/release/${{ env.OUTPUT_NAME }}.aab
 
       - name: Create Release
         id: create_release
@@ -53,6 +92,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./app/build/outputs/apk/release/app-release-unsigned.apk
-          asset_name: app-release-unsigned.apk
+          asset_path: app/build/outputs/apk/release/${{ env.OUTPUT_NAME }}.apk
+          asset_name: ${{ env.OUTPUT_NAME }}.apk
           asset_content_type: application/vnd.android.package-archive

@@ -5,23 +5,37 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
-    compileSdk 36
+    compileSdk = 36
 
     defaultConfig {
-        applicationId "vctls.bookmarkkeywords"
-        minSdk 21
-        targetSdk 36
-        versionCode 1
-        versionName "1.0"
+        applicationId = "vctls.bookmarkkeywords"
+        minSdk = 21
+        targetSdk = 36
+        versionCode = 3
+        versionName = "0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig = signingConfigs.release
         }
     }
     compileOptions {
@@ -30,11 +44,14 @@ android {
     }
 
     buildFeatures {
-        viewBinding true
+        viewBinding = true
     }
 
-    namespace 'vctls.bookmarkkeywords'
+    namespace = 'vctls.bookmarkkeywords'
+}
 
+tasks.register('printVersionName') {
+    println "v" + android.defaultConfig.versionName
 }
 
 dependencies {
