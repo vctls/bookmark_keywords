@@ -35,7 +35,7 @@ jobs:
           storePassword:${{ secrets.KEYSTORE_STORE_PASSWORD }}
           keyPassword:${{ secrets.KEYSTORE_KEY_PASSWORD }}
           keyAlias:${{ secrets.KEYSTORE_KEY_ALIAS }}
-          storeFile:${{ vars.KEYSTORE_STORE_FILE_PATH }}
+          storeFile:${{github.workspace}}/${{ vars.KEYSTORE_STORE_FILE_PATH }}
           EOF
 
       - name: Generate file name env var
