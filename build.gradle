@@ -17,6 +17,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.google.devtools.ksp' version '2.2.0-2.0.2' apply false
+}
+
 tasks.register('clean', Delete) {
     delete rootProject.layout.buildDirectory
 }

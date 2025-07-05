@@ -181,7 +181,7 @@ class MainActivity : AppCompatActivity() {
         var fields: List<String>
 
         // Remove the headers.
-        lines.removeFirst()
+        lines.removeAt(0)
         val expectedFields = 3
 
         for ((i, line) in lines.withIndex()) {
