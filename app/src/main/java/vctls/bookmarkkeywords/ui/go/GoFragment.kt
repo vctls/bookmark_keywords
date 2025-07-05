@@ -1,7 +1,6 @@
 package vctls.bookmarkkeywords.ui.go
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +15,7 @@ import kotlinx.coroutines.runBlocking
 import vctls.bookmarkkeywords.R
 import vctls.bookmarkkeywords.data.BookmarkDatabase
 import vctls.bookmarkkeywords.databinding.FragmentGoBinding
+import androidx.core.net.toUri
 
 class GoFragment : Fragment() {
 
@@ -32,7 +32,7 @@ class GoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+            ViewModelProvider(this)[HomeViewModel::class.java]
 
         _binding = FragmentGoBinding.inflate(inflater, container, false)
 
@@ -67,7 +67,8 @@ class GoFragment : Fragment() {
 
     private fun showSoftKeyboard(view: View) {
         if (view.hasWindowFocus()) {
-            val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
+            val imm =
+                ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
             imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         }
     }
@@ -116,10 +117,12 @@ class GoFragment : Fragment() {
         val url = template.replace(placeholder, search)
 
         // Try to open URL with the default app.
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        val browserIntent = Intent(Intent.ACTION_VIEW, url.toUri())
+            .addCategory(Intent.CATEGORY_DEFAULT)
+            .addCategory(Intent.CATEGORY_BROWSABLE)
         try {
             startActivity(browserIntent)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Toast.makeText(
                 context,
                 R.string.error_compatible_app_not_found,

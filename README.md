@@ -5,7 +5,7 @@
 This Android app attempts to replicate the behaviour of
 Firefox [bookmark keywords](https://kb.mozillazine.org/Using_keyword_searches),
 a little known, barely documented feature of the browser, that was dropped entirely
-from the mobile version and could as well end up being removed from the desktop version.  
+from the mobile version and could end up being removed from the desktop version as well.  
 This feature is also know as [“smart bookmarks”](https://en.wikipedia.org/wiki/Smart_bookmark),
 and appears in other browsers too, natively or through add-ons, with some variations. 
 
@@ -24,10 +24,12 @@ seem to have this feature.
 2. In the query input, type the keyword followed by a space then the phrase you want to search.
 3. Type Enter or tap the `Go` button.
 4. To edit a bookmark, simply open the list view and tap the corresponding row.
+5. Use the `Export` and `Import` menu items to save or load you bookmarks. 
+You can find an example export [here](doc/example_export.csv) 
 
-Go |  List | Form
-:-:|:-:|:-:
-![go view](doc/go.png)  |  ![list view](doc/list.png) | ![edit form](doc/form.png)
+|           Go           |            List            |            Form            |
+|:----------------------:|:--------------------------:|:--------------------------:|
+| ![go view](doc/go.png) | ![list view](doc/list.png) | ![edit form](doc/form.png) |
 
 ### Remarks
 
