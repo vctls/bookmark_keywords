@@ -1,6 +1,5 @@
 package vctls.bookmarkkeywords
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -20,7 +19,13 @@ import vctls.bookmarkkeywords.data.BookmarkDatabase
 import vctls.bookmarkkeywords.databinding.ActivityMainBinding
 import vctls.bookmarkkeywords.error.BookmarkKeywordsError
 import vctls.bookmarkkeywords.model.Bookmark
-import java.io.*
+import java.io.BufferedReader
+import java.io.BufferedWriter
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.OutputStream
+import java.io.OutputStreamWriter
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -83,7 +88,7 @@ class MainActivity : AppCompatActivity() {
 
         val forResult = ActivityResultContracts.StartActivityForResult()
         val exportLauncher = registerForActivityResult(forResult) { result ->
-            if (result.resultCode == Activity.RESULT_OK && result.data?.data is Uri) {
+            if (result.resultCode == RESULT_OK && result.data?.data is Uri) {
                 val data: Intent? = result.data
                 val uri = data?.data
                 if (uri != null) {
@@ -96,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val importLauncher = registerForActivityResult(forResult) { result ->
-            if (result.resultCode == Activity.RESULT_OK && result.data?.data is Uri) {
+            if (result.resultCode == RESULT_OK && result.data?.data is Uri) {
                 val data: Intent? = result.data
                 val uri = data?.data
                 if (uri != null) {
@@ -212,7 +217,7 @@ class MainActivity : AppCompatActivity() {
      * Remove double quotes from CSV strings.
      */
     private fun unquote(string: String?): String {
-        return string?.replace("^\"|\"\$".toRegex(), "")?.replace("\"\"", "\"") ?: ""
+        return string?.replace("^\"|\"$".toRegex(), "")?.replace("\"\"", "\"") ?: ""
     }
 
     /**
